@@ -1,0 +1,554 @@
+<!--
+●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●
+										 ❥ 模块可视化代码生成器
+●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●
+											   ▄▀▄     ▄▀▄  POWER!
+											  ▄█░░▀▀▀▀▀░░█▄
+										  ▄▄  █░░░░░░░░░░░█  ▄▄
+										 █▄▄█ █░░▀░░┬░░▀░░█ █▄▄█
+●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●
+
+									❥感谢以下贡献者为本项目做出的贡献！
+				[@dabyss zirawa_sevethri](zwa73@hotmail.com(1842565036)) - 编写的生成器代码
+									❥本项目由多个来自全球顶尖的科技公司技术强力驱动
+									❥@Google-Blockly @openai-GPT3.5-turbo
+									❥这个花俏的注释，占用了一半的开发时间
+
+●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●
+-->
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>苏大猫的模组工具 Dev.Preview</title>
+    <link rel ="apple-touch-icon"href ="./css/img/cat-satisfied-svgrepo-com-logo.svg"><!--webapp图标-->
+    <link rel="shortcut icon" href="./css/img/cat-satisfied.svg"><!-- favicon图标 -->
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/fontawesome.all.min.css"><!--图标库-->
+    <script src="./blockly/blockly_compressed.js"></script>
+    <script src="./blockly/blocks_compressed.js"></script>
+    <script src="./blockly/msg/zh-hans.js"></script>
+	<script src="./node_modules/@blockly/workspace-backpack/dist/index.js"></script><!--背包-->
+	<script src="./node_modules/@blockly/plugin-workspace-search/dist/index.js"></script><!--搜索-->
+	<script src="./node_modules/@blockly/zoom-to-fit/dist/index.js"></script><!--缩放-->
+	<script src="./node_modules/@blockly/plugin-scroll-options/dist/index.js"></script><!--滚动-->
+	<script src="./node_modules/@blockly/field-slider/dist/index.js"></script><!--字段滑块-->
+	<script src="./node_modules/@blockly/field-grid-dropdown/dist/index.js"></script><!--字段网格列表-->
+	<script src="./node_modules/@blockly/block-dynamic-connection/dist/index.js"></script><!--块动态连接-->
+	<script src="./node_modules/@blockly/renderer-inline-row-separators/dist/index.js"></script><!--内联输入换行-->
+	<!--<script src="./node_modules/@blockly/shadow-block-converter/dist/index.js"></script>阴影块转换器-->
+  </head>
+  <body>
+<!--●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬调试信息▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●-->
+	<div id="cache">
+	  <textarea id="cache-textarea" rows="20" cols="70" spellcheck="false"></textarea>
+	  <h3>DEBUG</h3>
+	</div>
+<!--●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬代码生成器▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●-->
+
+<!--●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬界面▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●-->
+    <div class="app-wall">
+      <div id="app">
+<!--●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬标题▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●-->
+		<header><div class="focusPoint" ></div><span class="cats" id="cats"></span>苏大猫的模组制作工具v0.0.1-0G-Alpha-16.Ultimate-Edition-Extra-Preview
+		</header>
+<!--●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬编辑器▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●-->
+		<div class="editor"> 
+		  <!--画布-->
+		  <div class="code" id="blocklyDiv">
+			<div id="zoom-level" title="快捷键:&#013;Ctrl + &#xf244;鼠标滚轮 缩放工作区">缩放: </div><!--显示缩放等级-->
+		  </div>
+<!--●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬模块库▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●-->
+		  <xml id="toolbox" style="display: none">
+			<!--模块-->
+			  <!--功能菜单-->
+			  <category name="功能菜单" css-icon="customIcon fa fa-cog" colour="120">
+				  <label text="功能菜单" web-class="Labeltext"></label>
+				  <label text="导出/导入" web-class="Labeltext"></label>
+				  <sep gap="8"></sep><!--分隔-->
+				  <button text="💾 导出工作区" callbackKey="exportWorkspace"></button>
+				  <sep gap="8"></sep><!--分隔-->
+				  <button text="💾 导出储存区" callbackKey="exportBackpack"></button>
+				  <sep gap="8"></sep><!--分隔-->
+				  <button text="📂 导入文件" callbackKey="importWorkspaceOrBackpack"></button>
+				  <label text="清空缓存" web-class="Labeltext"></label>
+				  <sep gap="8"></sep><!--分隔-->
+				  <button text="🗑️ 清空工作区缓存" web-class="CStyle" callbackKey="clearWorkspace"></button>
+				  <sep gap="8"></sep><!--分隔-->
+				  <button text="🗑️ 清空储存区缓存" web-class="CStyle" callbackKey="clearBackpack"></button>
+			  </category>
+			  
+<!--●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬备忘录▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●-->
+
+			  <category name="待办事项" css-icon="customIcon fas fa-cat" colour="150">
+			  <label text="待办事项" web-class="Labeltext"></label>
+			  <label text="√ 修改滚动条样式" web-class="Labeltext"></label>
+			  <label text="● 添加礼貌(嘴臭)猫猫问候和辅助用户" web-class="Labeltext"></label>
+			  </category>
+			  
+			  <!--分隔条--><sep css-container="categorySep" ></sep>
+			  
+<!--●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬模块库▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●-->
+
+			  <!--测试输入-->
+			  <category name="测试输入" css-icon="customIcon fas fa-cat" colour="150">
+				<label text="测试输入" web-class="Labeltext"></label>
+				<block type="block_value"></block><!--输入-->
+				<block type="block_flags"></block><!--输入-->
+				<block type="block_flag_item"></block><!--输入-->
+				<block type="block_item_text"></block><!--输入-->
+				<block type="inline_test"></block><!--输入-->
+			  </category>
+			  
+			  <!--分隔条--><sep css-container="categorySep" ></sep>
+			  
+			  <category name="EOC逻辑" css-icon="customIcon fas fa-cubes" colour="150">
+				<label text="EOC逻辑,还没开始做呢" web-class="Labeltext"></label>
+			  </category>
+			  <!--物品属性-->
+			  <category name="物品属性" css-icon="customIcon fas fa-cubes" colour="150">
+				<label text="物品的基础属性" web-class="Labeltext"></label>
+				<block type="item"></block>
+				<block type="weightvolume"></block>
+				<block type="test_field_slider"></block>
+				<block type="test_field_grid_dropdown"></block>
+			  </category>
+			  <category name="动态接口" css-icon="customIcon fas fa-cubes" colour="200">
+				<label text="动态接口测试" web-class="Labeltext"></label>
+				<block type="dynamic_text_join"></block><!--动态连接块-->
+				<block type="dynamic_list_create"></block><!--动态连接块-->
+				<block type="dynamic_if"></block><!--动态连接块-->
+			  </category>
+			  <sep css-container="categorySep" ></sep><!--分隔条-->
+
+<!--测试样式模块https://developers.google.com/blockly/guides/configure/web/toolbox-->
+  <category name="多级菜单 ↴" colour="150" css-icon="customIcon fas fa-bars">
+    <block type="weightvolume"></block>
+    <block type="weightvolume"></block>
+  </category>
+  
+  <category name="多级菜单 +" css-icon="customIcon fas fa-bars" colour="150" expanded="false">
+    <category name="选择框" css-icon="customIcon fas fa-cubes" colour="15">
+      <block type="test_field_grid_dropdown"></block>
+    </category>
+    <category name="拖动条" css-icon="customIcon fas fa-cubes" colour="55">
+    <block type="test_field_slider"></block>
+    <category name="下一级" css-icon="customIcon fas fa-cubes" colour="325">
+      <block type="item"></block>
+    </category>
+    </category>
+  </category>
+<sep css-container="categorySep" ></sep><!--分隔条-->
+  <category name="逻辑" colour="#5b80a5">
+    <block type="controls_if"></block>
+    <block type="logic_compare">
+      <field name="OP">EQ</field>
+    </block>
+    <block type="logic_operation">
+      <field name="OP">AND</field>
+    </block>
+    <block type="logic_negate"></block>
+    <block type="logic_boolean">
+      <field name="BOOL">TRUE</field>
+    </block>
+    <block type="logic_null"></block>
+    <block type="logic_ternary"></block>
+  </category>
+  <category name="循环" colour="#5ba55b">
+    <block type="controls_repeat_ext">
+      <value name="TIMES">
+        <shadow type="math_number">
+          <field name="NUM">10</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="controls_whileUntil">
+      <field name="MODE">WHILE</field>
+    </block>
+    <block type="controls_for">
+      <field name="VAR" id="oDbd.Dk~6BpB!Jqeyyq_">i</field>
+      <value name="FROM">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+      <value name="TO">
+        <shadow type="math_number">
+          <field name="NUM">10</field>
+        </shadow>
+      </value>
+      <value name="BY">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="controls_forEach">
+      <field name="VAR" id="K7|yvPObu$nR]wg(@CXQ">j</field>
+    </block>
+    <block type="controls_flow_statements">
+      <field name="FLOW">BREAK</field>
+    </block>
+  </category>
+  <category name="数学" colour="#5b67a5">
+    <block type="math_number">
+      <field name="NUM">0</field>
+    </block>
+    <block type="math_arithmetic">
+      <field name="OP">ADD</field>
+      <value name="A">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+      <value name="B">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="math_single">
+      <field name="OP">ROOT</field>
+      <value name="NUM">
+        <shadow type="math_number">
+          <field name="NUM">9</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="math_trig">
+      <field name="OP">SIN</field>
+      <value name="NUM">
+        <shadow type="math_number">
+          <field name="NUM">45</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="math_constant">
+      <field name="CONSTANT">PI</field>
+    </block>
+    <block type="math_number_property">
+      <mutation divisor_input="false"></mutation>
+      <field name="PROPERTY">EVEN</field>
+      <value name="NUMBER_TO_CHECK">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="math_round">
+      <field name="OP">ROUND</field>
+      <value name="NUM">
+        <shadow type="math_number">
+          <field name="NUM">3.1</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="math_on_list">
+      <mutation op="SUM"></mutation>
+      <field name="OP">SUM</field>
+    </block>
+    <block type="math_modulo">
+      <value name="DIVIDEND">
+        <shadow type="math_number">
+          <field name="NUM">64</field>
+        </shadow>
+      </value>
+      <value name="DIVISOR">
+        <shadow type="math_number">
+          <field name="NUM">10</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="math_constrain">
+      <value name="VALUE">
+        <shadow type="math_number">
+          <field name="NUM">50</field>
+        </shadow>
+      </value>
+      <value name="LOW">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+      <value name="HIGH">
+        <shadow type="math_number">
+          <field name="NUM">100</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="math_random_int">
+      <value name="FROM">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+      <value name="TO">
+        <shadow type="math_number">
+          <field name="NUM">100</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="math_random_float"></block>
+  </category>
+  <category name="文本" colour="#5ba58c">
+    <block type="text">
+      <field name="TEXT"></field>
+    </block>
+    <block type="text_join">
+      <mutation items="2"></mutation>
+    </block>
+    <block type="text_append">
+      <field name="VAR" id="1k6%N4g@0GBu{NG3zLla">项目</field>
+      <value name="TEXT">
+        <shadow type="text">
+          <field name="TEXT"></field>
+        </shadow>
+      </value>
+    </block>
+    <block type="text_length">
+      <value name="VALUE">
+        <shadow type="text">
+          <field name="TEXT">abc</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="text_isEmpty">
+      <value name="VALUE">
+        <shadow type="text">
+          <field name="TEXT"></field>
+        </shadow>
+      </value>
+    </block>
+    <block type="text_indexOf">
+      <field name="END">FIRST</field>
+      <value name="VALUE">
+        <block type="variables_get">
+          <field name="VAR" id="Pz9ul_T-sjeSH6x/p^do">text</field>
+        </block>
+      </value>
+      <value name="FIND">
+        <shadow type="text">
+          <field name="TEXT">abc</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="text_charAt">
+      <mutation at="true"></mutation>
+      <field name="WHERE">FROM_START</field>
+      <value name="VALUE">
+        <block type="variables_get">
+          <field name="VAR" id="Pz9ul_T-sjeSH6x/p^do">text</field>
+        </block>
+      </value>
+    </block>
+    <block type="text_getSubstring">
+      <mutation at1="true" at2="true"></mutation>
+      <field name="WHERE1">FROM_START</field>
+      <field name="WHERE2">FROM_START</field>
+      <value name="STRING">
+        <block type="variables_get">
+          <field name="VAR" id="Pz9ul_T-sjeSH6x/p^do">text</field>
+        </block>
+      </value>
+    </block>
+    <block type="text_changeCase">
+      <field name="CASE">UPPERCASE</field>
+      <value name="TEXT">
+        <shadow type="text">
+          <field name="TEXT">abc</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="text_trim">
+      <field name="MODE">BOTH</field>
+      <value name="TEXT">
+        <shadow type="text">
+          <field name="TEXT">abc</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="text_print">
+      <value name="TEXT">
+        <shadow type="text">
+          <field name="TEXT">abc</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="text_prompt_ext">
+      <mutation type="TEXT"></mutation>
+      <field name="TYPE">TEXT</field>
+      <value name="TEXT">
+        <shadow type="text">
+          <field name="TEXT">abc</field>
+        </shadow>
+      </value>
+    </block>
+  </category>
+  <category name="列表" colour="#745ba5">
+    <block type="lists_create_with">
+      <mutation items="0"></mutation>
+    </block>
+    <block type="lists_create_with">
+      <mutation items="3"></mutation>
+    </block>
+    <block type="lists_repeat">
+      <value name="NUM">
+        <shadow type="math_number">
+          <field name="NUM">5</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="lists_length"></block>
+    <block type="lists_isEmpty"></block>
+    <block type="lists_indexOf">
+      <field name="END">FIRST</field>
+      <value name="VALUE">
+        <block type="variables_get">
+          <field name="VAR" id="kSSgtt?b=)+rbEyq.1q/">list</field>
+        </block>
+      </value>
+    </block>
+    <block type="lists_getIndex">
+      <mutation statement="false" at="true"></mutation>
+      <field name="MODE">GET</field>
+      <field name="WHERE">FROM_START</field>
+      <value name="VALUE">
+        <block type="variables_get">
+          <field name="VAR" id="kSSgtt?b=)+rbEyq.1q/">list</field>
+        </block>
+      </value>
+    </block>
+    <block type="lists_setIndex">
+      <mutation at="true"></mutation>
+      <field name="MODE">SET</field>
+      <field name="WHERE">FROM_START</field>
+      <value name="LIST">
+        <block type="variables_get">
+          <field name="VAR" id="kSSgtt?b=)+rbEyq.1q/">list</field>
+        </block>
+      </value>
+    </block>
+    <block type="lists_getSublist">
+      <mutation at1="true" at2="true"></mutation>
+      <field name="WHERE1">FROM_START</field>
+      <field name="WHERE2">FROM_START</field>
+      <value name="LIST">
+        <block type="variables_get">
+          <field name="VAR" id="kSSgtt?b=)+rbEyq.1q/">list</field>
+        </block>
+      </value>
+    </block>
+    <block type="lists_split">
+      <mutation mode="SPLIT"></mutation>
+      <field name="MODE">SPLIT</field>
+      <value name="DELIM">
+        <shadow type="text">
+          <field name="TEXT">,</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="lists_sort">
+      <field name="TYPE">NUMERIC</field>
+      <field name="DIRECTION">1</field>
+    </block>
+  </category>
+  <category name="颜色" colour="#a5745b">
+    <block type="colour_picker">
+      <field name="COLOUR">#ff0000</field>
+    </block>
+    <block type="colour_random"></block>
+    <block type="colour_rgb">
+      <value name="RED">
+        <shadow type="math_number">
+          <field name="NUM">100</field>
+        </shadow>
+      </value>
+      <value name="GREEN">
+        <shadow type="math_number">
+          <field name="NUM">50</field>
+        </shadow>
+      </value>
+      <value name="BLUE">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="colour_blend">
+      <value name="COLOUR1">
+        <shadow type="colour_picker">
+          <field name="COLOUR">#ff0000</field>
+        </shadow>
+      </value>
+      <value name="COLOUR2">
+        <shadow type="colour_picker">
+          <field name="COLOUR">#3333ff</field>
+        </shadow>
+      </value>
+      <value name="RATIO">
+        <shadow type="math_number">
+          <field name="NUM">0.5</field>
+        </shadow>
+      </value>
+    </block>
+  </category>
+<!--^测试样式模块-->
+  
+		  </xml>
+<!--●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬模块库▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●-->
+
+<!--●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬拖动条▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●-->
+		  <div class="dragbar" id="dragbar"></div>
+<!--●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬输出窗口▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●-->
+		  <div class="jsonbox" id="jsonbox">
+			<textarea id="json" class="json" spellcheck="false">>正在初始化</textarea>
+		  </div>
+		</div>
+<!--●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬页脚▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●-->
+<footer class="footer"><span id="expanded" >©2023 CDDA MOD EDITOR</span>
+	<div id="InfoBox">﹀
+<pre>
+●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●
+	<h3>❥ 模块可视化代码生成器</h3>
+</pre>
+<pre>
+●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●
+         ▄▀▄    ▄▀▄  POWER!
+▄█ ░▀▀▀▀▀ ░█▄
+▄▄  █░░░░░░░░░░░█  ▄▄
+█▄▄█ █░░▀░░┬░░▀░░█ █▄▄█
+●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬
+
+<table>
+  <tr>
+    <td>❥感谢以下贡献者为本项目做出的贡献！ </td>
+  </tr>
+  <tr>
+    <td>❥<a title="zwa73@hotmail.com(1842565036)">@dabyss zirawa_sevethri</a> - 编写改进的生成器代码</td>
+  </tr>
+  <tr>
+    <td>❥@Google-Blockly @openai-GPT3.5-turbo</td>
+  </tr>
+  <tr>
+    <td>❥这个花俏的注释,占用了一半的开发时间</td>
+  </tr>
+</table>
+●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●
+</pre>
+
+	</div>
+</footer>
+      </div>
+    </div>
+<!--●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬界面▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●-->
+<!--做个猫猫,问用户叫什么名字,然后fuck他-->
+<!--●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬加载脚本▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●-->
+    <script src="./blocks/blocks.js"></script><!--模块-->
+    <script src="./css/themes.js"></script><!--主题配色-->
+    <script src="./css/renderer.js"></script><!--渲染器-->
+    <script src="./json_generators.js"></script><!--代码生成器-->
+    <script src="./index.js"></script><!--代码-->
+<!--●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬到底啦!▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●-->
+  </body>
+</html>

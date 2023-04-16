@@ -1,0 +1,517 @@
+/**
+●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●
+										 ❥ 模块可视化代码生成器
+●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●
+											   ▄▀▄     ▄▀▄  CSS POWER!
+											  ▄█░░▀▀▀▀▀░░█▄
+										  ▄▄  █░░░░░░░░░░░█  ▄▄
+										 █▄▄█ █░░▀░░┬░░▀░░█ █▄▄█
+●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●
+
+									❥感谢以下贡献者为本项目做出的贡献！
+				[@dabyss zirawa_sevethri](zwa73@hotmail.com(1842565036)) - 编写的生成器代码
+									❥本项目由多个来自全球顶尖的科技公司技术强力驱动
+									❥@Google-Blockly @openai-GPT3.5-turbo
+									❥这个花俏的注释，占用了一半的开发时间
+
+●▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬●
+*/
+
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 16px;
+  margin: 0;
+  background: #252526;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+}
+#app-wall {
+  min-height: 100vh;
+  padding: 0;
+}
+
+#app {
+  width: 100%;
+  max-width: 100%;
+  height: calc(100vh - 52px);
+  margin: 0 auto;
+  padding: 0;
+  font-size: 100%;
+}
+
+/*滚动条 https://codepen.io/fatihhayri/pen/NEgERZ*/
+:root {
+  --body-bg-color: #1e1e1e;
+  --scroll-color: rgba(66,66,66,1);
+  --scroll--hover-color: #666;
+  --scroll-track-color: rgba(255,255,255,0);
+}
+::-webkit-scrollbar-track {
+  background: linear-gradient(to right, var(--scroll-track-color) 0%, var(--scroll-track-color) 35%, var(--scroll-color) 55%, var(--body-bg-color) 61%, var(--body-bg-color) 100%);
+}
+::-webkit-scrollbar {
+	width: 5px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--scroll-color);
+  border-radius: 5px;
+}
+
+/* 标题 */ 
+header {
+  position: relative;
+  line-height: 20px;
+  text-align: center;
+  font-size: 0.75em;
+  background: #3c3c3c;
+  letter-spacing: 0.05em;
+/* border-bottom: 1px solid #e8e8e8; 标题底部分隔线*/ 
+  color: #ccc;
+  display: flex;
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+  user-select: none;/*禁止选择*/
+  white-space: nowrap;
+  overflow: hidden;
+  min-width: 200px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,1);
+}
+
+/* 注视点 */ 
+header .focusPoint {
+  position: absolute;
+  top: 12px;
+  left: 22px;
+  width: 0.5rem;
+  height: 0.5rem;
+  background: rgba(255, 153, 0, 0.9);
+  border-radius: 50%;
+  box-shadow: -12px 0 0 rgba(204, 0, 0, 0.9), 12px 0 0 rgba(0, 204, 0, 0.9);
+}
+
+/* 标题图标 */ 
+header .cats {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  flex-shrink: 0;
+  filter: drop-shadow(1px 1px 2px rgba(0,0,0,1));
+}
+
+/* 编辑器 */ 
+.editor {
+  position: relative;
+  min-height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  overflow: hidden;
+}
+
+/* 工作区 */
+.editor .code {
+  overflow: auto;
+  padding: 0rem;
+  width: 80%;
+  border-right: 1px solid #393939;
+}
+/* 代码窗口 */
+.editor .jsonbox {
+  flex: 1;
+  position: relative;
+}
+.editor .jsonbox .json {
+  resize: none;
+  border: none;
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  font-family: "Monaco", "Consolas", "Liberation Mono", monospace;
+  background: #1e1e1e;
+  color: #f60;
+  outline: none;
+}
+/* 拖动条 */
+.editor .dragbar {
+  padding: 4px;
+  cursor: col-resize;
+  background-color: rgba(0,0,0,0);
+  transition: background-color 0.3s ease-in-out;
+  position: relative;
+}
+.editor .dragbar:hover {
+  background-color: #393939;
+  transition: background-color 0.3s ease-in-out;
+}
+/*拖动条的防滑条*/
+.editor .dragbar:before,
+.editor .dragbar:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  height: 20px;
+  margin-top: auto;
+  margin-bottom: auto;
+  background-color: rgba(0,0,0,0);
+  border-right: 1px solid #5e5e5e;
+  border-left: 1px solid #5e5e5e; 
+  left: 50%;
+  transform: translateX(-50%);
+  margin-left: -1px;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+.editor .dragbar:hover:before,
+.editor .dragbar:hover:after {
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* 工具栏按钮 */ 
+.blocklyFlyoutButton {
+  fill: #6bba62;
+}
+/* 工具栏按钮阴影 */ 
+.blocklyFlyoutButtonShadow {
+  fill: #1e1e1e;
+}
+/* 红色 */ 
+.CStyle {
+  fill: #e04b5a;
+}
+
+/* 页脚 */ 
+
+
+.footer {
+  bottom:0;
+  left:0;
+  position:fixed;
+  width: 100%;
+  height: 1.5em;
+  user-select: none;
+  white-space: nowrap;
+  overflow:hidden;
+  margin:0 auto;
+  text-align: center;
+  z-index:999;
+  background: #252526;
+  font-size: 0.75em;
+  font-weight:500;
+  color:#8889;
+  transition: all 0.8s ease;
+}
+
+.footer.expanded {
+  height: 30em;
+  transition: all 0.8s ease;
+}
+
+#expanded {
+  cursor: pointer;
+  position: relative;
+}
+
+#expanded::before {
+  content: '关于 CDDA MOD EDITOR';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #252526;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 1s ease;
+}
+
+#expanded:hover::before {
+  opacity: 1;
+}
+
+/*关于界面*/
+.footer #InfoBox{
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  margin-top:0.3em;
+  width:100%;
+  height:100%;
+  position:relative;
+  top:0;
+  left:0;
+  background: #1e1e1e;
+}
+
+.footer h3{
+  font-family: 'Helvetica';
+  font-size: 1.5em;
+  margin-top:0;
+  font-weight: 100;
+  margin-bottom: 0.2em;
+
+}
+#InfoBox table {
+  text-align: center; /* 设置表格中所有单元格的文本居中 */
+  margin: 0 auto; /* 设置表格水平居中 */
+}
+#InfoBox td {
+  text-align: left; /* 设置单元格中文本居左 */
+}
+.footer pre{
+  text-align:center;
+  font-family: "Monaco", "Consolas", "Liberation Mono", monospace;
+  font-size: 0.7em;
+  margin-top:0;
+  font-weight: 100;
+  margin-bottom: 0.2em;
+  text-align: center;
+}
+/* 工作区边框 */ 
+.blocklyMainBackground {
+  stroke-width: 0;
+}
+
+/*工具箱***********************************************************/
+/* 分类按钮字体 */
+.blocklyTreeLabel {
+  font: 0.8em sans-serif;
+  vertical-align: 0.1em;
+  text-shadow: 1px 1px 2px rgba(0,0,0,1);
+}
+/*分类按钮和分隔符边距*/
+.blocklyToolboxContents {
+  padding: 0.5em;
+}
+/*子分类按钮*/
+.blocklyToolboxContents[role="group"] {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+/*分类按钮*/
+.blocklyTreeRow {
+  padding: 0px;
+  margin-bottom: 0.5em;
+  border-radius: 4px;
+  border-left: 5px solid;
+  padding-left: 0px !important;
+/*transition: transform 0.3s ease-in-out 0s, background-color 0.3s ease-in-out 0s; 磨磨蹭蹭不爽快!*/
+}
+/*分类栏标签字体*/ 
+.blocklyFlyoutLabel.Labeltext>.blocklyFlyoutLabelText{
+  font-style: italic;
+  font: 0.8em sans-serif;
+  fill: #ccc;
+  text-shadow: 1px 1px 2px rgba(0,0,0,1);
+}
+/*图标颜色*/
+.customIcon {
+  color: white;
+  margin-right: 0.2rem;
+  font-size: 0.8rem;
+  vertical-align: 0.1em;
+  text-shadow: 1px 1px 2px rgba(0,0,0,1);
+}
+/* 图标按钮*/
+.blocklyTreeRowContentContainer {
+  margin-left: 0.3rem;
+  margin-right: 0.5rem;
+}
+/*分类按钮恢复默认高度
+.blocklyTreeRow {
+  height: initial;
+}
+*/
+/* 分隔条*/
+.categorySep {
+  margin-top: 0rem;
+  margin-bottom: 0.5rem;
+  border-top: 1px solid #2d2d2d;/* 选择一个颜色*/
+  border-top: 1px solid RGBA(128,129,145,0.24);
+}
+
+/*工具箱***********************************************************/
+
+/*DEBUG*/
+#cache {
+  position: fixed; 
+  bottom: 20px; 
+  right: 2px; 
+  z-index: 9999;
+  font-family: "Monaco", "Consolas", "Liberation Mono", monospace;
+}
+
+/*窗口*/
+#cache-textarea {
+  color: green; 
+  display: none;
+  margin-bottom: 4px;
+  min-width: 400px; /* 设置文本域的最小宽度 */
+  min-height: 200px; /* 设置文本域的最小高度 */
+  max-width: 1000px; /* 设置文本域的最小宽度 */
+  max-height: 700px; /* 设置文本域的最小高度 */
+  background-color: rgba(0, 0, 0, 0); /* 设置背景颜色为半透明黑色 */
+  backdrop-filter: blur(5px); /* 添加模糊效果 */
+  font-family: "Monaco", "Consolas", "Liberation Mono", monospace;
+}
+
+/*DEBUG*/
+/*文字按钮*/
+#cache h3 {
+  position: absolute;
+  right: 5px;
+  font-size: 10px;
+  color: gray;
+  margin: 0;
+  text-align: right;
+  white-space: nowrap;
+  user-select: none;/*禁止选择*/
+}
+
+/* 窗口设置 */
+#controlPanel {
+  color: gray;
+  position: fixed; 
+  bottom: 30px; 
+  right: 2px; 
+  z-index: 9999;
+}
+
+/*缩放等级显示*/
+#zoom-level {
+  position: absolute;
+  bottom: 1rem;
+  right: 1.6rem;
+  font-size: 10px;
+  color: #888;
+  margin: 0;
+  text-align: right;
+  white-space: nowrap;
+  user-select: none;
+  opacity: .4;
+  z-index: 1;
+  user-select: none;/*禁止选择*/
+}
+#blocklyDiv {
+  position: relative;
+}
+
+/*搜索栏
+生成的搜索栏如下所示：
+<div class="ws-search'>
+  <div class="ws-search-container'>
+    <div class="ws-search-content'>
+      <div class="ws-search-input'>
+        [... text input goes here ...]
+      </div>
+      [... actions div goes here ...]
+    </div>
+    [... close button goes here ...]
+  </div>
+</div>
+
+blockly-ws-search-container：适用于搜索容器。
+blockly-ws-search-content：适用于搜索内容。
+blockly-ws-search-input：适用于输入包装器。（默认值border: none;：）
+blockly-ws-search-actions: 适用于动作 div。
+blockly-ws-search-current：突出显示提供的块作为“当前选择”。（默认值fill: grey;：）
+blockly-ws-search-highlight：向提供的块添加突出显示。（默认值fill: black;：）
+搜索栏*/
+
+/*搜索外框*/
+.blockly-ws-search {
+  background-color: #333;
+  border: solid #444 1px;
+  box-shadow: 0px 0px 0px #222;
+  justify-content: center;
+  padding: 0.6em;
+  position: absolute;
+  z-index: 70;
+  border-radius: .5rem;
+  display: flex;
+  align-items: center;
+  padding-top: .4rem;
+  display: flex;
+  transform: translateX(-50%) translateY(50%); /* 左右居中 */
+}
+/*搜索容器*/
+.blockly-ws-search-container {
+  color: white;
+}
+/*搜索内容*/
+.blockly-ws-search-content {
+  color: white;
+}
+/*输入*/
+.blockly-ws-search-input {
+  border: none;
+  color: white;
+}
+/*文本框*/
+.blockly-ws-search-input input[type="text"] {
+  border-radius: .2rem;
+  background-color: white;
+  height: 100%;
+  color: #333;
+}
+
+/*上一个下一个按钮*/
+.blockly-ws-search-actions {
+  display: flex;
+  justify-content: center; /* 居中 */
+  margin: 0.4em;
+}
+/*关闭按钮*/
+.blockly-ws-search-close-btn {
+  display: flex;
+  justify-content: center; /* 居中 */
+  margin-top: 0.4em;
+}
+.blockly-ws-search-actions > button {
+  margin: 0 3px; /* 添加间隔 */
+} 
+
+/*覆写
+请注意，`!important`关键字应该谨慎使用，
+因为它可以破坏CSS的继承性和可维护性。
+如果可能的话，应使用更具体的选择器来覆盖其他样式。
+*/
+
+/*相关模块*/
+.blockly-ws-search-highlight,
+.path.blocklyPath.blockly-ws-search-highlight {
+  fill: #363333 !important;
+}
+
+/*当前选择的模块*/
+.blockly-ws-search-current,
+.path.blocklyPath.blockly-ws-search-highlight.blockly-ws-search-current {
+  fill: #f60 !important;
+  border-right: 10px solid #5e5e5e;
+  border-left: 10px solid #5e5e5e; 
+}
+
+/*
+绿皮手动替换csv(绘图工具:https://boxy-svg.com/app)
+
+缩放按钮更换颜色(.\node_modules\@blockly\zoom-to-fit\dist\index.js)
+"data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iIzU0NkU3QSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cGF0aCBkPSJNMCAwaDI0djI0SDBWMHoiIGZpbGw9Im5vbmUiLz4KICA8cGF0aCBkPSJNNSA2LjQyTDguMDkgOS41IDkuNSA4LjA5IDYuNDEgNUg5VjNIM3Y2aDJ6bTEwLTMuNDF2MmgyLjU3TDE0LjUgOC4wOWwxLjQxIDEuNDFMMTkgNi40MVY5aDJWMy4wMXptNCAxNC41N2wtMy4wOS0zLjA4LTEuNDEgMS40MUwxNy41OSAxOUgxNXYyaDZ2LTZoLTJ6TTguMDkgMTQuNUw1IDE3LjU5VjE1SDN2Nmg2di0ySDYuNDJsMy4wOC0zLjA5eiIgc3R5bGU9InBhaW50LW9yZGVyOiBmaWxsOyBmaWxsOiByZ2IoMTM2LCAxMzYsIDEzNik7Ii8+Cjwvc3ZnPg=="
+
+收藏夹按钮(.\node_modules\@blockly\workspace-backpack\dist\index.js)
+图标-空(https://www.svgrepo.com/svg/510998/folder)
+"data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iIzQ1NUE2NCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZyBpZD0iRmlsZSAvIEZvbGRlciIgdHJhbnNmb3JtPSJtYXRyaXgoMC41OTUwMTcsIDAsIDAsIDAuNTk1MDE3LCA0Ljg1OTczMywgNC44NTk3OTIpIiBzdHlsZT0iIj4KICAgIDxwYXRoIGlkPSJWZWN0b3IiIGQ9Ik0zIDZWMTYuOEMzIDE3LjkyMDEgMyAxOC40Nzk4IDMuMjE3OTkgMTguOTA3NkMzLjQwOTczIDE5LjI4MzkgMy43MTU0NyAxOS41OTA1IDQuMDkxOCAxOS43ODIyQzQuNTE5MiAyMCA1LjA3ODk5IDIwIDYuMTk2OTEgMjBIMTcuODAzMUMxOC45MjEgMjAgMTkuNDggMjAgMTkuOTA3NCAxOS43ODIyQzIwLjI4MzcgMTkuNTkwNSAyMC41OTA1IDE5LjI4NDEgMjAuNzgyMiAxOC45MDc4QzIxLjAwMDIgMTguNDggMjEuMDAwMiAxNy45MTk5IDIxLjAwMDIgMTYuNzk5OEwyMS4wMDAyIDkuMTk5NzhDMjEuMDAwMiA4LjA3OTY3IDIxLjAwMDIgNy41MTk2MiAyMC43ODIyIDcuMDkxOEMyMC41OTA1IDYuNzE1NDcgMjAuMjgzOSA2LjQwOTczIDE5LjkwNzYgNi4yMTc5OUMxOS40Nzk4IDYgMTguOTIwMSA2IDE3LjggNkgxMk0zIDZIMTJNMyA2QzMgNC44OTU0MyAzLjg5NTQzIDQgNSA0SDguNjc0NTJDOS4xNjM3IDQgOS40MDg4NiA0IDkuNjM5MDQgNC4wNTUyNkM5Ljg0MzExIDQuMTA0MjUgMTAuMDM3OSA0LjE4NTI2IDEwLjIxNjggNC4yOTQ5MkMxMC40MTg2IDQuNDE4NTcgMTAuNTkxOCA0LjU5MTgyIDEwLjkzNzUgNC45Mzc1TDEyIDYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHlsZT0iZmlsbDogbm9uZTsgc3Ryb2tlOiByZ2IoMTM2LCAxMzYsIDEzNik7Ii8+CiAgPC9nPgo8L3N2Zz4="
+
+图标-ADD(https://www.svgrepo.com/svg/510987/folder-add)
+"data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iIzQ1NUE2NCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZyBpZD0iRmlsZSAvIEZvbGRlcl9BZGQiIHRyYW5zZm9ybT0ibWF0cml4KDAuNTk1MDE3LCAwLCAwLCAwLjU5NTAxNywgNC44NTk3MzMsIDQuODU5NzkyKSIgc3R5bGU9IiI+CiAgICA8cGF0aCBpZD0icGF0aC0xIiBkPSJNMTIgMTZWMTNNMTIgMTNWMTBNMTIgMTNIOU0xMiAxM0gxNU0zIDZWMTYuOEMzIDE3LjkyMDEgMyAxOC40Nzk4IDMuMjE3OTkgMTguOTA3NkMzLjQwOTczIDE5LjI4MzkgMy43MTU0NyAxOS41OTA1IDQuMDkxOCAxOS43ODIyQzQuNTE5MiAyMCA1LjA3ODk5IDIwIDYuMTk2OTEgMjBIMTcuODAzMUMxOC45MjEgMjAgMTkuNDggMjAgMTkuOTA3NCAxOS43ODIyQzIwLjI4MzcgMTkuNTkwNSAyMC41OTA1IDE5LjI4NDEgMjAuNzgyMiAxOC45MDc4QzIxLjAwMDIgMTguNDggMjEuMDAwMiAxNy45MTk5IDIxLjAwMDIgMTYuNzk5OEwyMS4wMDAyIDkuMTk5NzhDMjEuMDAwMiA4LjA3OTY3IDIxLjAwMDIgNy41MTk2MiAyMC43ODIyIDcuMDkxOEMyMC41OTA1IDYuNzE1NDcgMjAuMjgzOSA2LjQwOTczIDE5LjkwNzYgNi4yMTc5OUMxOS40Nzk4IDYgMTguOTIwMSA2IDE3LjggNkgxMk0zIDZIMTJNMyA2QzMgNC44OTU0MyAzLjg5NTQzIDQgNSA0SDguNjc0NTJDOS4xNjM3IDQgOS40MDg4NiA0IDkuNjM5MDQgNC4wNTUyNkM5Ljg0MzExIDQuMTA0MjUgMTAuMDM3OSA0LjE4NTI2IDEwLjIxNjggNC4yOTQ5MkMxMC40MTg2IDQuNDE4NTcgMTAuNTkxOCA0LjU5MTgyIDEwLjkzNzUgNC45Mzc1TDEyIDYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHlsZT0iZmlsbDogbm9uZTsgc3Ryb2tlOiByZ2IoMTM2LCAxMzYsIDEzNik7Ii8+CiAgPC9nPgo8L3N2Zz4="
+
+*/
