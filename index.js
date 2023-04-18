@@ -28,7 +28,7 @@ document.querySelector("#cats").style.backgroundImage = `url(css/img/${icons[ran
 //const blocklyDiv = document.getElementById('blocklyDiv');
 const workspace = Blockly.inject(blocklyDiv, {
 	toolbox: document.getElementById('toolbox'),//模块工具栏
-	renderer: 'thrasos-inline-row-separators',//渲染器custom_renderer,thrasos,zelos
+	renderer: '渲染器custom_renderer',//渲染器custom_renderer,thrasos-inline-row-separators,thrasos,zelos
 	theme: Blockly.Themes.Modern,//主题
 	collapse: true, //折叠或展开
 	comments: true, //注释
